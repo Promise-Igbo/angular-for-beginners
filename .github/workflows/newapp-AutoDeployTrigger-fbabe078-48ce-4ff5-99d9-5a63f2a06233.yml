@@ -57,4 +57,4 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp registry set -n newapp -g wakanowRG --server wakappregistry.azurecr.io --username  ${{ secrets.NEWAPP_REGISTRY_USERNAME }} --password ${{ secrets.NEWAPP_REGISTRY_PASSWORD }}
-            az containerapp update -n newapp -g wakanowRG --image wakappregistry.azurecr.io/newapp:${{ github.sha }}
+            az containerapp update -n anpppls -g wakanowRG --image wakappregistry.azurecr.io/newapp:${{ github.sha }}
