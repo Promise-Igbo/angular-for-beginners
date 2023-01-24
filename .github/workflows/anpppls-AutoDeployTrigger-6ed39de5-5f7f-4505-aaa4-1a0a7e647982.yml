@@ -28,14 +28,14 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: wakappregistry.azurecr.io
-          username: ${{ secrets.ANPPPLS_REGISTRY_USERNAME }}
-          password: ${{ secrets.ANPPPLS_REGISTRY_PASSWORD }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: wakappregistry.azurecr.io/anpppls:${{ github.sha }}
+          tags: wakappregistry.azurecr.io/restaurant:${{ github.sha }}
           file: ./Dockerfile
           context: ./
 
@@ -48,7 +48,7 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.ANPPPLS_AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
 
       - name: Deploy to containerapp
@@ -56,5 +56,5 @@ jobs:
         with:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n wakappregistry -g wakanowrg --server wakappregistry.azurecr.io --username  ${{ secrets.ANPPPLS_REGISTRY_USERNAME }} --password ${{ secrets.ANPPPLS_REGISTRY_PASSWORD }}
-            az containerapp update -n anpppls -g acarg --image wakappregistry.azurecr.io/anpppls:${{ github.sha }}
+            az containerapp registry set -n wakappregistry -g wakanowrg --server wakappregistry.azurecr.io --username  ${{ secrets.REGISTRY_USERNAME }} --password ${{ secrets.REGISTRY_PASSWORD }}
+            az containerapp update -n anpppls -g acarg --image wakappregistry.azurecr.io/restaurant:${{ github.sha }}
